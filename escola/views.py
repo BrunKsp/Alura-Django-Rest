@@ -1,18 +1,18 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from rest_framework import viewsets
+from rest_framework import routers, serializers, viewsets
 from .models import aluno , curso 
-from serializer import alunoSerializer , cursoSerializer
+from .serializer import alunoSerializer , cursoSerializer
 
 
 
-class AlunoViewsets(viewsets.ModelViewSets):
+class AlunoViewsets(viewsets.ModelViewSet):
     ##Exibe todos os alunos do banco!!
     queryset = aluno.objects.all()
     serializer_class = alunoSerializer
 
 
-class CursoViewsets(viewsets.ModelViewSets):
+class CursoViewsets(viewsets.ModelViewSet):
     queryset = curso.objects.all()
     serializer_class = cursoSerializer
 

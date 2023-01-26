@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import routers, serializers, viewsets
 from .models import aluno, curso
 
 class alunoSerializer(serializers.ModelSerializer):

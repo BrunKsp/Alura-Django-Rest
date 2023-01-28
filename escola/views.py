@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from rest_framework import routers, serializers, viewsets
-from .models import aluno , curso 
-from .serializer import alunoSerializer , cursoSerializer
+from rest_framework import routers, serializers, viewsets , generics
+from .models import aluno , curso , matricula
+from .serializer import alunoSerializer , cursoSerializer , matriculaSerializer , ListaMatriculasAlunoSerializer , ListaAlunosMatriculadosSerializer
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 
 
 
@@ -17,8 +20,27 @@ class CursoViewsets(viewsets.ModelViewSet):
     serializer_class = cursoSerializer
 
 
-def alunos (request):
 
-    if request.method == 'GET':
-        aluno = {'id':'1' , 'nome':'Teste' }
-        return JsonResponse(aluno)
+class MatriculaViewsets(viewsets.ModelViewSet):
+    queryset = matricula.objects.all()
+    serializer_class = matriculaSerializer
+
+
+class ListaMatriculaAluno(generics.ListAPIView):
+    ##Lista as matricula de um determinado aluno
+    def get_queryset(self):
+        queryset = matricula.objects.filter(Aluno_id = self.kwargs['pk'])
+        return queryset
+    serializer_class = ListaMatriculasAlunoSerializer
+    ## Autenticação de usuarios 
+    uthentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+class ListaAlunosMatriculados(generics.ListAPIView):
+    """Listando alunos e alunas matriculados em um curso"""
+    def get_queryset(self):
+        queryset = matricula.objects.filter(curso_id=self.kwargs['pk'])
+        return queryset
+    serializer_class = ListaAlunosMatriculadosSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]

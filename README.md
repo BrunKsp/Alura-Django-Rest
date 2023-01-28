@@ -1,5 +1,5 @@
 <h1 align="center">Curso Django Rest Framework/h1>
-<p align="center">🚀 Curso da plataforma Alura , desenvolvimento Django com Rest Framework , conceitos básicos , ao longa da formação irei atualizando as branches conforme vou evoluindo no framework.</p>
+<p align="center">🚀 Curso da plataforma Alura , desenvolvimento Django com Rest Framework , conceitos básicos , ao longo da formação irei atualizando as branches conforme vou evoluindo no framework.</p>
   
 ### 🛠 Tecnologias
 

@@ -4,6 +4,8 @@ class aluno (models.Model):
     nome = models.CharField(max_length=30)
     data_nascimento = models.DateField()
     cpf = models.CharField(max_length=11)
+    celular = models.CharField(max_length=11, default="")
+
 
 
     def __str__(self) :

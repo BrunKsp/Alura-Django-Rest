@@ -6,7 +6,10 @@ class alunoSerializer(serializers.ModelSerializer):
         model = aluno
         fields = ['id', 'nome', 'cpf', 'data_nascimento']
 
-    
+class AlunoSerializerV2(serializers.ModelSerializer):  
+    class Meta:
+        model = aluno
+        fields = ['id', 'nome', 'celular','rg', 'cpf', 'data_nascimento'] 
 
 class cursoSerializer(serializers.ModelSerializer):
     class Meta :
@@ -35,5 +38,7 @@ class ListaAlunosMatriculadosSerializer(serializers.ModelSerializer):
         model = matricula
         fields = ['Aluno_nome']
 
+
+    
 
    

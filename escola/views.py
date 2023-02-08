@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework import routers, serializers, viewsets , generics
 from .models import aluno , curso , matricula
-from .serializer import alunoSerializer , cursoSerializer , matriculaSerializer , ListaMatriculasAlunoSerializer , ListaAlunosMatriculadosSerializer
+from .serializer import alunoSerializer , cursoSerializer , matriculaSerializer , ListaMatriculasAlunoSerializer , ListaAlunosMatriculadosSerializer , AlunoSerializerV2
 from rest_framework.authentication import BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated , DjangoModelPermissions
 
 
 
@@ -12,7 +12,12 @@ from rest_framework.permissions import IsAuthenticated
 class AlunoViewsets(viewsets.ModelViewSet):
     ##Exibe todos os alunos do banco!!
     queryset = aluno.objects.all()
-    serializer_class = alunoSerializer
+    
+    def get_serializer_class(self):
+        if self.request.version == 'v2':
+            return AlunoSerializerV2
+        else:
+            return alunoSerializer
 
 
 class CursoViewsets(viewsets.ModelViewSet):
@@ -33,8 +38,8 @@ class ListaMatriculaAluno(generics.ListAPIView):
         return queryset
     serializer_class = ListaMatriculasAlunoSerializer
     ## Autenticação de usuarios 
-    uthentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated , DjangoModelPermissions]
 
 class ListaAlunosMatriculados(generics.ListAPIView):
     """Listando alunos e alunas matriculados em um curso"""
@@ -43,4 +48,4 @@ class ListaAlunosMatriculados(generics.ListAPIView):
         return queryset
     serializer_class = ListaAlunosMatriculadosSerializer
     authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated , DjangoModelPermissions]
